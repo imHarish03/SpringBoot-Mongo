@@ -1,10 +1,10 @@
-package lab.demo.mongodb.springbootexample.config;
+package io.lab.imHarish03.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import lab.demo.mongodb.springbootexample.repository.UserDAO;
+import io.lab.imHarish03.repository.UserDAO;
 
 @EnableMongoRepositories(basePackageClasses = UserDAO.class)
 @Configuration

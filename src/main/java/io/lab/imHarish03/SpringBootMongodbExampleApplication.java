@@ -1,11 +1,11 @@
-package lab.demo.mongodb.springbootexample;
+package io.lab.imHarish03;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import lab.demo.mongodb.springbootexample.service.UserService;
+import io.lab.imHarish03.service.UserService;
 
 @SpringBootApplication
 public class SpringBootMongodbExampleApplication implements CommandLineRunner {

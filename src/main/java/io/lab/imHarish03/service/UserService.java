@@ -1,13 +1,13 @@
-package lab.demo.mongodb.springbootexample.service;
+package io.lab.imHarish03.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lab.demo.mongodb.springbootexample.document.Users;
-import lab.demo.mongodb.springbootexample.repository.UserDAO;
-import lab.demo.mongodb.springbootexample.repository.UserDAOImpl;
+import io.lab.imHarish03.document.Users;
+import io.lab.imHarish03.repository.UserDAO;
+import io.lab.imHarish03.repository.UserDAOImpl;
 
 @Service
 public class UserService {
@@ -20,7 +20,7 @@ public class UserService {
 
 	public void saveUser() {
 		try {
-			Users user = new Users(1, "Mathi", "Java Developer", 3000L);
+			Users user = new Users();
 			userDAO.save(user);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -37,7 +37,7 @@ public class UserService {
 
 	public void updateUser() {
 		try {
-			Users user = new Users(1, "Hariharan", "Java Developer", 4000L);
+			Users user = new Users();
 			userDAO.save(user);
 		} catch (Exception e) {
 			System.out.println(e);

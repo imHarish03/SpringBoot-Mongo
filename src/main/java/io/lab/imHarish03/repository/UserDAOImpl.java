@@ -1,4 +1,4 @@
-package lab.demo.mongodb.springbootexample.repository;
+package io.lab.imHarish03.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import lab.demo.mongodb.springbootexample.document.Users;
+import io.lab.imHarish03.document.Users;
 
 @Repository
 public class UserDAOImpl {
