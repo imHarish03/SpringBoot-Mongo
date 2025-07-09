@@ -3,9 +3,13 @@ package io.lab.imHarish03.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import io.lab.imHarish03.document.Users;
+import io.lab.imHarish03.dto.UserDTO;
+import io.lab.imHarish03.mapper.UserMapper;
 import io.lab.imHarish03.repository.UserDAO;
 import io.lab.imHarish03.repository.UserDAOImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +20,13 @@ public class UserService {
 
 	private final UserDAO userDAO;
 	private final UserDAOImpl userDaoImpl;
+	private final UserMapper userMapper;
 
 	/**
 	 * Save or create a user.
 	 */
-	public Users save(Users user) {
+	public Users save(UserDTO userDTO) {
+		Users user=userMapper.toEntity(userDTO);
 		return userDAO.save(user);
 	}
 
@@ -41,7 +47,8 @@ public class UserService {
 	/**
 	 * Update a user if they exist.
 	 */
-	public Users updateUser(Users user) {
+	public Users updateUser(UserDTO userDTO) {
+		Users user=userMapper.toEntity(userDTO);
 		Optional<Users> existingUser = userDAO.findById(user.getId());
 		if (existingUser.isPresent()) {
 			Users info = existingUser.get();
@@ -84,6 +91,10 @@ public class UserService {
 
 	public void updateUserImpl() {
 		userDaoImpl.updateUser();
+	}
+
+	public Page<UserDTO> findAll(Pageable pageable) {
+	    return userDAO.findAll(pageable).map(userMapper::toDto);
 	}
 
 }

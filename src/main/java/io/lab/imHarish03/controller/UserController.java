@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.lab.imHarish03.document.Users;
+import io.lab.imHarish03.dto.UserDTO;
 import io.lab.imHarish03.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,9 +37,9 @@ public class UserController {
 	 * Create or save a new user.
 	 */
 	@PostMapping
-	public ResponseEntity<Object> saveUser(@RequestBody Users user) {
+	public ResponseEntity<Object> saveUser(@RequestBody @Valid UserDTO userDTO) {
 		try {
-			Users savedUser = userService.save(user);
+			Users savedUser = userService.save(userDTO);
 			LOGGER.info("User saved: {}", savedUser.getId());
 			return ResponseEntity.status(201).body(savedUser);
 		} catch (Exception e) {
@@ -71,14 +77,14 @@ public class UserController {
 	 * Update user by ID.
 	 */
 	@PutMapping
-	public ResponseEntity<Object> updateUser(@RequestBody Users user) {
+	public ResponseEntity<Object> updateUser(@RequestBody @Valid UserDTO userDTO) {
 		try {
-			Users updated = userService.updateUser(user);
+			Users updated = userService.updateUser(userDTO);
 			if (updated != null) {
-				LOGGER.info("User updated: {}", user.getId());
+				LOGGER.info("User updated: {}", userDTO.getId());
 				return ResponseEntity.ok(updated);
 			} else {
-				LOGGER.warn("Update failed, user not found: {}", user.getId());
+				LOGGER.warn("Update failed, user not found: {}", userDTO.getId());
 				return ResponseEntity.status(404).body("User not found");
 			}
 		} catch (Exception e) {
@@ -105,6 +111,14 @@ public class UserController {
 			LOGGER.error("Error while deleting user", e);
 			return ResponseEntity.status(500).body("Failed to delete user");
 		}
+	}
+
+	@GetMapping("/page")
+	public ResponseEntity<Page<UserDTO>> getUsersPaginated(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<UserDTO> userPage = userService.findAll(pageable);
+		return ResponseEntity.ok(userPage);
 	}
 
 }
