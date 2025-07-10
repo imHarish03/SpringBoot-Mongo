@@ -3,6 +3,7 @@ name: Build & Deploy to AWS Lambda
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -21,10 +22,11 @@ jobs:
       - name: 🔧 Build project with Maven
         run: mvn clean package
 
-      - name: 📁 Zip the fat JAR
+      - name: 📁 Rename and Zip fat JAR
         run: |
           cd target
-          zip ecommerce-lambda.zip springboot-lambda.jar
+          mv springboot-lambda.jar ecommerce-lambda.jar
+          zip ecommerce-lambda.zip ecommerce-lambda.jar
 
       - name: 🚀 Deploy to AWS Lambda
         uses: appleboy/lambda-action@v0.1.10
