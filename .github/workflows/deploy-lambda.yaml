@@ -22,18 +22,21 @@ jobs:
       - name: 🔧 Build project with Maven
         run: mvn clean package
 
-      - name: 📁 Rename and Zip fat JAR
+      - name: 📁 Rename and Zip JAR
         run: |
           cd target
           mv springboot-lambda.jar ecommerce-lambda.jar
           zip ecommerce-lambda.zip ecommerce-lambda.jar
 
-      - name: 🚀 Deploy to AWS Lambda
-        uses: aws-actions/aws-lambda-deploy@v1
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          function-name: ecommerce
-          region: us-east-1
-          zip-file: target/ecommerce-lambda.zip
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: 🚀 Deploy to AWS Lambda using CLI
+        run: |
+          aws lambda update-function-code \
+            --function-name ecommerce \
+            --zip-file fileb://target/ecommerce-lambda.zip
