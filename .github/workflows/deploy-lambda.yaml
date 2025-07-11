@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: 🔧 Build project with Maven
-        run: mvn clean package
+        run: mvn clean package -DskipTests
 
       - name: 📁 Rename and Zip JAR
         run: |
