@@ -26,7 +26,6 @@ jobs:
         run: |
           cd target
           mv springboot-lambda.jar ecommerce-lambda.jar
-          zip ecommerce-lambda.zip ecommerce-lambda.jar
 
       - name: 🔐 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -39,4 +38,4 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name ecommerce \
-            --zip-file fileb://target/ecommerce-lambda.zip
+            --zip-file fileb://target/ecommerce-lambda.jar 
