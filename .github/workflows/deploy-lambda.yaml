@@ -38,4 +38,5 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name ecommerce \
-            --zip-file fileb://target/ecommerce-lambda.jar 
+            --zip-file fileb://target/ecommerce-lambda.jar \
+            --publish
